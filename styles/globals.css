@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --color-accent: #f7931e;
+}
+
 @font-face {
     font-family: 'OCR-A';
     src: url('/fonts/OCR-A.ttf') format('truetype');
