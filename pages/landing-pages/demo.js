@@ -14,7 +14,9 @@ export default function Demo() {
             <Header />
 
             <main className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-                <h1 className="text-5xl font-ocr-a mb-6">Bridge Demo</h1>
+                <h1 className="text-5xl font-ocr-a mb-6">Coming soon</h1>
+
+
             </main>
 
             <Footer />
