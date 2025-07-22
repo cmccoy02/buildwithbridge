@@ -1,102 +1,89 @@
-import Head from 'next/head'
-import Script from 'next/script'
-import { useEffect, useRef } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 
-function Gauge({ value }) {
-  const radius = 45
-  const circumference = Math.PI * radius
-  const dash = (value / 100) * circumference
-  const angle = (value / 100) * 180 - 90
-
-  return (
-    <div className="relative w-64 h-32 mx-auto mb-8">
-      <svg viewBox="0 0 100 50" className="w-full h-full">
-        <path d="M5 45 A45 45 0 0 1 95 45" fill="none" stroke="#333" strokeWidth="10" />
-        <path d="M5 45 A45 45 0 0 1 95 45" fill="none" stroke="var(--color-accent)" strokeWidth="10" strokeDasharray={`${dash} ${circumference}`} strokeLinecap="round" />
-      </svg>
-      <div className="absolute left-1/2 bottom-0 transform origin-bottom" style={{ transform: `translateX(-50%) rotate(${angle}deg)` }}>
-        <div className="w-1 h-20 bg-white" />
-      </div>
-      <div className="absolute left-1/2 bottom-0 transform translate-y-5 -translate-x-1/2 text-2xl font-ocr-a">
-        {value}
-      </div>
-    </div>
-  )
-}
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Speedometer from '../components/Speedometer';
+import ZoomableSunburst from '../components/ZoomableSunburst';
+import LineChart from '../components/LineChart';
+import ZoomableIcicle from '../components/ZoomableIcicle';
+import { placeholderData } from '../data/placeholder-data';
 
 export default function Dashboard() {
-  const historyRef = useRef(null)
-  const predictionRef = useRef(null)
+  const sunburstData = {
+    name: "flare",
+    children: [
+      {name: "analytics", children: [
+        {name: "cluster", children: [
+          {name: "AgglomerativeCluster", value: 3938},
+          {name: "CommunityStructure", value: 3812},
+          {name: "HierarchicalCluster", value: 6714},
+          {name: "MergeEdge", value: 743}
+        ]},
+        {name: "graph", children: [
+          {name: "BetweennessCentrality", value: 3534},
+          {name: "LinkDistance", value: 5731},
+          {name: "MaxFlowMinCut", value: 7840},
+          {name: "ShortestPath", value: 5914},
+          {name: "SpanningTree", value: 3416}
+        ]},
+        {name: "optimization", children: [
+          {name: "AspectRatioBanker", value: 7074}
+        ]}
+      ]}
+    ]
+  };
 
-  useEffect(() => {
-    if (window.Chart) {
-      const ctx1 = historyRef.current.getContext('2d')
-      new window.Chart(ctx1, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-          datasets: [{
-            label: 'Tech Debt Score',
-            data: [40, 45, 50, 55, 60],
-            borderColor: 'var(--color-accent)',
-            tension: 0.4
-          }]
-        },
-        options: { plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' }, min: 0, max: 100 } } }
-      })
-      const ctx2 = predictionRef.current.getContext('2d')
-      new window.Chart(ctx2, {
-        type: 'line',
-        data: {
-          labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-          datasets: [{
-            label: 'Predicted Score',
-            data: [65, 67, 70, 72, 75],
-            borderColor: '#4ade80',
-            tension: 0.4
-          }]
-        },
-        options: { plugins: { legend: { labels: { color: '#fff' } } }, scales: { x: { ticks: { color: '#fff' } }, y: { ticks: { color: '#fff' }, min: 0, max: 100 } } }
-      })
-    }
-  }, [])
+  const lineChartData = [
+    {x: 0, y: 20},
+    {x: 1, y: 30},
+    {x: 2, y: 10},
+    {x: 3, y: 50},
+    {x: 4, y: 40},
+    {x: 5, y: 60},
+    {x: 6, y: 30},
+  ];
 
   return (
-    <div className="min-h-screen bg-amoled-black text-white flex flex-col">
+    <div className="min-h-screen bg-black text-white flex flex-col">
       <Head>
         <title>Dashboard - Bridge</title>
         <meta name="description" content="Bridge Dashboard" />
         <link rel="icon" href="/images/bridge.svg" />
       </Head>
-      <Script src="https://cdn.jsdelivr.net/npm/chart.js" strategy="beforeInteractive" />
+
       <Header />
-      <main className="flex-grow px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-ocr-a text-center my-8">Tech Debt Dashboard</h1>
-        <Gauge value={65} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <div className="bg-gray-900 p-4 rounded-lg">
-            <canvas ref={historyRef}></canvas>
+
+      <main className="flex-grow p-4 sm:p-6 lg:p-8">
+        <h1 className="text-4xl font-ocr-a mb-8 text-center">Dashboard</h1>
+        <div className="flex flex-col lg:flex-row h-full gap-4">
+          {/* Left Half */}
+          <div className="w-full lg:w-1/2 h-auto lg:h-full bg-gray-900 rounded-lg p-4 aspect-square">
+            <h2 className="text-2xl font-ocr-a mb-4">Speedometer</h2>
+            <Speedometer value={75} />
           </div>
-          <div className="bg-gray-900 p-4 rounded-lg">
-            <canvas ref={predictionRef}></canvas>
-          </div>
-          <div className="bg-gray-900 p-4 rounded-lg font-jetbrains-mono">
-            <h2 className="text-xl font-ocr-a mb-2">Next Steps</h2>
-            <ul className="list-disc pl-5 text-gray-300 space-y-1">
-              <li>Pay down high-risk components</li>
-              <li>Refactor outdated modules</li>
-              <li>Continue leveraging low-risk debt</li>
-            </ul>
-          </div>
-          <div className="bg-gray-900 p-4 rounded-lg font-jetbrains-mono">
-            <h2 className="text-xl font-ocr-a mb-2">Financial Impact</h2>
-            <p className="text-gray-300">Estimated annual cost: $250k</p>
+
+          {/* Right Half */}
+          <div className="w-full lg:w-1/2 h-auto lg:h-full grid grid-cols-1 sm:grid-cols-2 grid-rows-2 gap-4">
+            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
+              <h3 className="text-xl font-ocr-a">Zoomable Sunburst</h3>
+              <ZoomableSunburst data={sunburstData} />
+            </div>
+            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
+              <h3 className="text-xl font-ocr-a">Line Chart</h3>
+              <LineChart data={lineChartData} />
+            </div>
+            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
+              <h3 className="text-xl font-ocr-a">Zoomable Icicle</h3>
+              <ZoomableIcicle data={sunburstData} />
+            </div>
+            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
+              <h3 className="text-xl font-ocr-a">Coming Soon</h3>
+            </div>
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
-  )
+  );
 }
