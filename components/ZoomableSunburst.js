@@ -6,6 +6,9 @@ const ZoomableSunburst = ({ data }) => {
   const ref = useRef();
 
   useEffect(() => {
+    // Clear the SVG first
+    d3.select(ref.current).selectAll("*").remove();
+    
     const width = 300;
     const height = 300;
     const radius = width / 6;
@@ -16,7 +19,11 @@ const ZoomableSunburst = ({ data }) => {
         .sum(d => d.value)
         .sort((a, b) => b.value - a.value));
 
-    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
+    // Use a more muted color scheme
+    const color = d3.scaleOrdinal()
+      .domain(['analytics', 'cluster', 'graph', 'optimization'])
+      .range(['#f7931e', '#4ade80', '#60a5fa', '#f87171']);
+
     const arc = d3.arc()
         .startAngle(d => d.x0)
         .endAngle(d => d.x1)
@@ -30,7 +37,7 @@ const ZoomableSunburst = ({ data }) => {
 
     const svg = d3.select(ref.current)
         .attr("viewBox", [-width / 2, -height / 2, width, width])
-        .style("font", "10px sans-serif");
+        .style("font", "10px JetBrains Mono");
 
     const path = svg.append("g")
       .selectAll("path")
@@ -38,9 +45,11 @@ const ZoomableSunburst = ({ data }) => {
       .join("path")
         .attr("fill", d => {
           while (d.depth > 1) d = d.parent;
-          return color(d.data.name);
+          return color(d.data.name) || '#a0aec0';
         })
-        .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+        .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.8 : 0.6) : 0)
+        .attr("stroke", "#2d3748")
+        .attr("stroke-width", 1)
         .attr("d", d => arc(d.current));
 
     path.filter(d => d.children)
@@ -55,6 +64,7 @@ const ZoomableSunburst = ({ data }) => {
       .data(root.descendants().slice(1))
       .join("text")
         .attr("dy", "0.35em")
+        .attr("fill", "#ffffff")
         .attr("fill-opacity", d => +labelVisible(d.current))
         .attr("transform", d => labelTransform(d.current))
         .text(d => d.data.name);
@@ -86,7 +96,7 @@ const ZoomableSunburst = ({ data }) => {
         .filter(function(d) {
           return +this.getAttribute("fill-opacity") || arcVisible(d.target);
         })
-          .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
+          .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.8 : 0.6) : 0)
           .attrTween("d", d => () => arc(d.current));
 
       label.filter(function(d) {
@@ -113,7 +123,7 @@ const ZoomableSunburst = ({ data }) => {
   }, [data]);
 
   return (
-    <svg ref={ref} width="300" height="300"></svg>
+    <svg ref={ref} width="300" height="300" className="mx-auto"></svg>
   );
 };
 

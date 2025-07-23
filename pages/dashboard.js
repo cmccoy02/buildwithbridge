@@ -34,13 +34,17 @@ export default function Dashboard() {
   };
 
   const lineChartData = [
-    {x: 0, y: 20},
-    {x: 1, y: 30},
-    {x: 2, y: 10},
-    {x: 3, y: 50},
-    {x: 4, y: 40},
-    {x: 5, y: 60},
-    {x: 6, y: 30},
+    {x: 0, y: 25},    // Jan
+    {x: 10, y: 35},   // Feb
+    {x: 20, y: 28},   // Mar
+    {x: 30, y: 45},   // Apr
+    {x: 40, y: 38},   // May
+    {x: 50, y: 52},   // Jun
+    {x: 60, y: 48},   // Jul
+    {x: 70, y: 58},   // Aug
+    {x: 80, y: 55},   // Sep
+    {x: 90, y: 65},   // Oct
+    {x: 100, y: 62},  // Nov
   ];
 
   return (
@@ -57,27 +61,29 @@ export default function Dashboard() {
         <h1 className="text-4xl font-ocr-a mb-8 text-center">Dashboard</h1>
         <div className="flex flex-col lg:flex-row h-full gap-4">
           {/* Left Half */}
-          <div className="w-full lg:w-1/2 h-auto lg:h-full bg-gray-900 rounded-lg p-4 aspect-square">
-            <h2 className="text-2xl font-ocr-a mb-4">Speedometer</h2>
-            <Speedometer value={75} />
+          <div className="w-full lg:w-1/2 bg-gray-900 rounded-lg p-4 aspect-square flex flex-col">
+            <h2 className="text-2xl font-ocr-a mb-4">Current Debt</h2>
+            <div className="flex-1 flex items-center justify-center">
+              <Speedometer value={95} />
+            </div>
           </div>
 
           {/* Right Half */}
-          <div className="w-full lg:w-1/2 h-auto lg:h-full grid grid-cols-1 sm:grid-cols-2 grid-rows-2 gap-4">
+          <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 aspect-square">
             <div className="bg-gray-800 rounded-lg p-4 aspect-square">
               <h3 className="text-xl font-ocr-a">Zoomable Sunburst</h3>
               <ZoomableSunburst data={sunburstData} />
             </div>
             <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Line Chart</h3>
+              <h3 className="text-xl font-ocr-a">History</h3>
               <LineChart data={lineChartData} />
             </div>
             <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Zoomable Icicle</h3>
+              <h3 className="text-xl font-ocr-a">Debt Breakdown</h3>
               <ZoomableIcicle data={sunburstData} />
             </div>
             <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Coming Soon</h3>
+              <h3 className="text-xl font-ocr-a">Predicted Debt</h3>
             </div>
           </div>
         </div>
