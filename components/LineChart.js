@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const LineChart = ({ data }) => {
+const AreaChart = ({ data }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -14,23 +14,31 @@ const LineChart = ({ data }) => {
     const height = 300;
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
-    // Fixed x-axis scale from 0 to 100
+    // Fixed x-axis scale from 0 to 5 (6 months: Mar-Aug)
     const x = d3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 5])
       .range([margin.left, width - margin.right]);
 
-    // Fixed y-axis scale from 0 to 100
+    // Fixed y-axis scale from 0 to 10
     const y = d3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 10])
       .range([height - margin.bottom, margin.top]);
 
+    // Month labels for x-axis
+    const monthLabels = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
+
+    // Create area generator
+    const area = d3.area()
+      .x(d => x(d.x))
+      .y0(height - margin.bottom)
+      .y1(d => y(d.y))
+      .curve(d3.curveMonotoneX);
+
+    // Create line generator
     const line = d3.line()
       .x(d => x(d.x))
       .y(d => y(d.y))
       .curve(d3.curveMonotoneX);
-
-    // Month labels for x-axis
-    const monthLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     // Add grid lines
     svg.append('g')
@@ -39,7 +47,7 @@ const LineChart = ({ data }) => {
       .call(d3.axisBottom(x)
         .tickSize(-height + margin.top + margin.bottom)
         .tickFormat('')
-        .ticks(10)
+        .ticks(5)
       )
       .selectAll('line')
       .attr('stroke', '#4a5568')
@@ -56,6 +64,12 @@ const LineChart = ({ data }) => {
       .selectAll('line')
       .attr('stroke', '#4a5568')
       .attr('stroke-opacity', 0.3);
+
+    // Add the area fill
+    svg.append('path')
+      .datum(data)
+      .attr('fill', 'rgba(247, 147, 30, 0.2)')
+      .attr('d', area);
 
     // Add the line path
     svg.append('path')
@@ -79,12 +93,8 @@ const LineChart = ({ data }) => {
 
     // Add x-axis with custom month labels
     const xAxis = d3.axisBottom(x)
-      .ticks(10)
-      .tickFormat((d, i) => {
-        // Map the 0-100 scale to month indices (0-11)
-        const monthIndex = Math.floor((d / 100) * 12);
-        return monthLabels[monthIndex] || '';
-      });
+      .ticks(6)
+      .tickFormat((d, i) => monthLabels[i] || '');
 
     svg.append('g')
       .attr('transform', `translate(0,${height - margin.bottom})`)
@@ -97,7 +107,7 @@ const LineChart = ({ data }) => {
     // Add y-axis with fixed domain
     const yAxis = d3.axisLeft(y)
       .ticks(5)
-      .tickFormat(d => `${d}%`);
+      .tickFormat(d => `${d}`);
 
     svg.append('g')
       .attr('transform', `translate(${margin.left},0)`)
@@ -121,4 +131,4 @@ const LineChart = ({ data }) => {
   );
 };
 
-export default LineChart;
+export default AreaChart;

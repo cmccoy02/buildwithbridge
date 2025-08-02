@@ -4,9 +4,51 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Speedometer from '../components/Speedometer';
 import ZoomableSunburst from '../components/ZoomableSunburst';
-import LineChart from '../components/LineChart';
+import AreaChart from '../components/LineChart';
 import ZoomableIcicle from '../components/ZoomableIcicle';
 import { placeholderData } from '../data/placeholder-data';
+
+// Predicted Debt Component
+const PredictedDebt = ({ currentValue, predictedValue }) => {
+  const difference = predictedValue - currentValue;
+  const isImprovement = difference < 0;
+  const absDifference = Math.abs(difference);
+  
+  // Color logic for predicted value
+  const getPredictedColor = (val) => {
+    if (val >= 70) return '#ff6b6b'; // Red
+    if (val >= 40) return '#ffd93d'; // Yellow
+    return '#6bcf7f'; // Green
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-full">
+      {/* Predicted Value */}
+      <div 
+        className="text-6xl font-ocr-a font-bold mb-4"
+        style={{ color: getPredictedColor(predictedValue) }}
+      >
+        {predictedValue}
+      </div>
+      
+      {/* Arrow and Difference */}
+      <div className="flex items-center space-x-2">
+        <span 
+          className={`text-2xl ${isImprovement ? 'text-green-400' : 'text-red-400'}`}
+        >
+          {isImprovement ? '↓' : '↑'}
+        </span>
+        <span 
+          className={`text-xl font-jetbrains-mono font-bold ${
+            isImprovement ? 'text-green-400' : 'text-red-400'
+          }`}
+        >
+          {absDifference}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export default function Dashboard() {
   const sunburstData = {
@@ -33,18 +75,14 @@ export default function Dashboard() {
     ]
   };
 
-  const lineChartData = [
-    {x: 0, y: 25},    // Jan
-    {x: 10, y: 35},   // Feb
-    {x: 20, y: 28},   // Mar
-    {x: 30, y: 45},   // Apr
-    {x: 40, y: 38},   // May
-    {x: 50, y: 52},   // Jun
-    {x: 60, y: 48},   // Jul
-    {x: 70, y: 58},   // Aug
-    {x: 80, y: 55},   // Sep
-    {x: 90, y: 65},   // Oct
-    {x: 100, y: 62},  // Nov
+  // Updated data for area chart - months leading to August
+  const areaChartData = [
+    {x: 0, y: 2.5},   // Mar
+    {x: 1, y: 3.5},   // Apr
+    {x: 2, y: 2.8},   // May
+    {x: 3, y: 4.5},   // Jun
+    {x: 4, y: 3.8},   // Jul
+    {x: 5, y: 5.2},   // Aug (current)
   ];
 
   return (
@@ -57,33 +95,51 @@ export default function Dashboard() {
 
       <Header />
 
-      <main className="flex-grow p-4 sm:p-6 lg:p-8">
+      <main className="flex-grow p-6 lg:p-8">
         <h1 className="text-4xl font-ocr-a mb-8 text-center">Dashboard</h1>
-        <div className="flex flex-col lg:flex-row h-full gap-4">
-          {/* Left Half */}
-          <div className="w-full lg:w-1/2 bg-gray-900 rounded-lg p-4 aspect-square">
-            <h2 className="text-2xl font-ocr-a mb-4">Current Debt</h2>
-            <Speedometer value={95} />
+        
+        {/* Main Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          
+          {/* Left Column - Large Tile */}
+          <div className="lg:col-span-1">
+            <div className="bg-gray-900 rounded-xl p-6 h-full">
+              <h2 className="text-2xl font-ocr-a mb-6">Current Debt</h2>
+              <Speedometer value={95} />
+            </div>
           </div>
 
-          {/* Right Half */}
-          <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 aspect-square">
-            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Zoomable Sunburst</h3>
-              <ZoomableSunburst data={sunburstData} />
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">History</h3>
-              <LineChart data={lineChartData} />
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Debt Breakdown</h3>
-              <ZoomableIcicle data={sunburstData} />
-            </div>
-            <div className="bg-gray-800 rounded-lg p-4 aspect-square">
-              <h3 className="text-xl font-ocr-a">Predicted Debt</h3>
+          {/* Right Column - 2x2 Grid */}
+          <div className="lg:col-span-2">
+            <div className="grid grid-cols-2 gap-6 h-full">
+              
+              {/* History Tile */}
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-xl font-ocr-a mb-4">History</h3>
+                <AreaChart data={areaChartData} />
+              </div>
+
+              {/* Predicted Debt Tile */}
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-xl font-ocr-a mb-4">Predicted Debt</h3>
+                <PredictedDebt currentValue={95} predictedValue={63} />
+              </div>
+
+              {/* Prioritized Debt Tile */}
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-xl font-ocr-a mb-4">Prioritized Debt</h3>
+                
+              </div>
+
+              {/* Debt Breakdown Tile */}
+              <div className="bg-gray-800 rounded-xl p-6">
+                <h3 className="text-xl font-ocr-a mb-4">Debt Breakdown</h3>
+                <ZoomableSunburst data={sunburstData} />
+              </div>
+
             </div>
           </div>
+
         </div>
       </main>
 

@@ -12,6 +12,44 @@ const Speedometer = ({ value }) => {
 
   const debtLevel = getDebtLevel(value);
 
+  // Function to get insights based on debt level
+  const getInsights = (val) => {
+    if (val >= 70) {
+      return {
+        title: "Critical Action Required",
+        description: "Your tech debt is at a critical level. Immediate refactoring of core systems is needed to prevent development velocity from grinding to a halt.",
+        recommendations: [
+          "Prioritize legacy system modernization",
+          "Implement automated testing coverage",
+          "Establish code review standards",
+          "Consider technical debt sprints"
+        ]
+      };
+    } else if (val >= 40) {
+      return {
+        title: "Moderate Attention Needed",
+        description: "Tech debt is manageable but requires strategic planning to prevent escalation.",
+        recommendations: [
+          "Schedule regular refactoring sessions",
+          "Improve documentation practices",
+          "Monitor debt accumulation trends"
+        ]
+      };
+    } else {
+      return {
+        title: "Well Maintained",
+        description: "Excellent technical practices! Continue maintaining this healthy codebase.",
+        recommendations: [
+          "Maintain current development practices",
+          "Regular code quality reviews",
+          "Share best practices with team"
+        ]
+      };
+    }
+  };
+
+  const insights = getInsights(value);
+
   return (
     <div className="flex flex-col items-center">
       <ReactSpeedometer
@@ -49,6 +87,29 @@ const Speedometer = ({ value }) => {
         </div>
         <div className="text-sm font-jetbrains-mono text-gray-400 mt-1">
           Tech Debt Score
+        </div>
+      </div>
+
+      {/* Insights Section */}
+      <div className="mt-6 w-full">
+        <h3 className="text-lg font-ocr-a text-white mb-3">Insights</h3>
+        <div className="bg-gray-800 rounded-lg p-4">
+          <h4 className="text-md font-ocr-a mb-2" style={{ color: debtLevel.color }}>
+            {insights.title}
+          </h4>
+          <p className="text-sm font-jetbrains-mono text-gray-300 mb-3 leading-relaxed">
+            {insights.description}
+          </p>
+          <div className="space-y-1">
+            {insights.recommendations.map((rec, index) => (
+              <div key={index} className="flex items-start">
+                <span className="text-xs text-gray-400 mr-2 mt-1">•</span>
+                <span className="text-xs font-jetbrains-mono text-gray-300">
+                  {rec}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
