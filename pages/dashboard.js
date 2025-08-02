@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Speedometer from '../components/Speedometer';
-import PieChart from '../components/PieChart';
+import FinancialImpact from '../components/FinancialImpact';
 import AreaChart from '../components/LineChart';
 import ZoomableIcicle from '../components/ZoomableIcicle';
 import { placeholderData } from '../data/placeholder-data';
@@ -170,8 +170,8 @@ export default function Dashboard() {
                 <AreaChart data={areaChartData} />
               </div>
 
-              {/* Predicted Debt Tile */}
-              <div className="bg-gray-800 rounded-xl p-6">
+              {/* Predicted Debt Tile - Shorter */}
+              <div className="bg-gray-800 rounded-xl p-6 row-span-1">
                 <h3 className="text-xl font-ocr-a mb-4">Predicted Debt</h3>
                 <PredictedDebt currentValue={95} predictedValue={63} />
               </div>
@@ -182,10 +182,10 @@ export default function Dashboard() {
                 <PrioritizedDebt />
               </div>
 
-              {/* Debt Breakdown Tile */}
-              <div className="bg-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-ocr-a mb-4">Debt Breakdown</h3>
-                <PieChart data={pieChartData} />
+              {/* Financial Impact Tile - Taller */}
+              <div className="bg-gray-800 rounded-xl p-6 row-span-2">
+                <h3 className="text-xl font-ocr-a mb-4">Financial Impact</h3>
+                <FinancialImpact />
               </div>
 
             </div>
