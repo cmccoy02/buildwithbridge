@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Speedometer from '../components/Speedometer';
-import ZoomableSunburst from '../components/ZoomableSunburst';
+import PieChart from '../components/PieChart';
 import AreaChart from '../components/LineChart';
 import ZoomableIcicle from '../components/ZoomableIcicle';
 import { placeholderData } from '../data/placeholder-data';
@@ -118,29 +118,13 @@ const PrioritizedDebt = () => {
 };
 
 export default function Dashboard() {
-  const sunburstData = {
-    name: "flare",
-    children: [
-      {name: "analytics", children: [
-        {name: "cluster", children: [
-          {name: "AgglomerativeCluster", value: 3938},
-          {name: "CommunityStructure", value: 3812},
-          {name: "HierarchicalCluster", value: 6714},
-          {name: "MergeEdge", value: 743}
-        ]},
-        {name: "graph", children: [
-          {name: "BetweennessCentrality", value: 3534},
-          {name: "LinkDistance", value: 5731},
-          {name: "MaxFlowMinCut", value: 7840},
-          {name: "ShortestPath", value: 5914},
-          {name: "SpanningTree", value: 3416}
-        ]},
-        {name: "optimization", children: [
-          {name: "AspectRatioBanker", value: 7074}
-        ]}
-      ]}
-    ]
-  };
+  // Data for pie chart showing repo components and their debt contributions
+  const pieChartData = [
+    { name: "Frontend Components", value: 35 },
+    { name: "API Services", value: 28 },
+    { name: "Database Layer", value: 22 },
+    { name: "Authentication", value: 15 }
+  ];
 
   // Updated data for area chart - months leading to August
   const areaChartData = [
@@ -201,7 +185,7 @@ export default function Dashboard() {
               {/* Debt Breakdown Tile */}
               <div className="bg-gray-800 rounded-xl p-6">
                 <h3 className="text-xl font-ocr-a mb-4">Debt Breakdown</h3>
-                <ZoomableSunburst data={sunburstData} />
+                <PieChart data={pieChartData} />
               </div>
 
             </div>

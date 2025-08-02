@@ -56,14 +56,10 @@ const Speedometer = ({ value }) => {
         value={value}
         minValue={0}
         maxValue={100}
-        segments={5}
-        segmentColors={[
-          '#6bcf7f', // Green for low
-          '#a8e6cf', // Light green
-          '#ffd3b6', // Light orange
-          '#ff8b94', // Light red
-          '#ff6b6b'  // Red for high
-        ]}
+        segments={100}
+        maxSegmentLabels={0}
+        startColor="#6bcf7f"
+        endColor="#ff6b6b"
         needleColor="#ffffff"
         needleHeightRatio={0.8}
         ringWidth={60}
