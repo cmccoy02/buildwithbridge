@@ -61,11 +61,9 @@ export default function Dashboard() {
         <h1 className="text-4xl font-ocr-a mb-8 text-center">Dashboard</h1>
         <div className="flex flex-col lg:flex-row h-full gap-4">
           {/* Left Half */}
-          <div className="w-full lg:w-1/2 bg-gray-900 rounded-lg p-4 aspect-square flex flex-col">
+          <div className="w-full lg:w-1/2 bg-gray-900 rounded-lg p-4 aspect-square">
             <h2 className="text-2xl font-ocr-a mb-4">Current Debt</h2>
-            <div className="flex-1 flex items-center justify-center">
-              <Speedometer value={95} />
-            </div>
+            <Speedometer value={95} />
           </div>
 
           {/* Right Half */}

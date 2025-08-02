@@ -21,7 +21,7 @@ export default function Header() {
             <nav>
                 <ul className="flex space-x-8 font-jetbrains-mono">
                     <li><Link href="/landing-pages/about" className="hover:text-gray-400 transition duration-200">About</Link></li>
-                    <li><Link href="/landing-pages/demo" className="hover:text-gray-400 transition duration-200">Demo</Link></li>
+                    <li><Link href="/dashboard" className="hover:text-gray-400 transition duration-200">Demo</Link></li>
                     <li><Link href="/landing-pages/contact" className="hover:text-gray-400 transition duration-200">Contact</Link></li>
                 </ul>
             </nav>
