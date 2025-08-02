@@ -50,6 +50,73 @@ const PredictedDebt = ({ currentValue, predictedValue }) => {
   );
 };
 
+// Prioritized Debt Component
+const PrioritizedDebt = () => {
+  const debtItems = [
+    {
+      name: "Legacy Authentication System",
+      impact: "Critical",
+      color: "#ff6b6b", // Red
+      description: "Outdated OAuth implementation causing security vulnerabilities"
+    },
+    {
+      name: "Monolithic Database Architecture", 
+      impact: "High",
+      color: "#ffa726", // Orange (fits between yellow and green)
+      description: "Single database handling all services, creating bottlenecks"
+    },
+    {
+      name: "Missing Test Coverage",
+      impact: "Medium",
+      color: "#ffd93d", // Yellow
+      description: "Only 45% test coverage, increasing deployment risks"
+    },
+    {
+      name: "Deprecated Dependencies",
+      impact: "Low",
+      color: "#6bcf7f", // Green
+      description: "23 outdated packages with known security issues"
+    }
+  ];
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex-1 space-y-3">
+        {debtItems.map((item, index) => (
+          <div key={index} className="flex items-start space-x-3 p-3 bg-gray-700 rounded-lg">
+            {/* Impact Indicator */}
+            <div 
+              className="w-3 h-3 rounded-full mt-2 flex-shrink-0"
+              style={{ backgroundColor: item.color }}
+            ></div>
+            
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between mb-1">
+                <h4 className="text-sm font-ocr-a text-white truncate">
+                  {item.name}
+                </h4>
+                <span 
+                  className="text-xs font-jetbrains-mono px-2 py-1 rounded"
+                  style={{ 
+                    backgroundColor: item.color + '20',
+                    color: item.color
+                  }}
+                >
+                  {item.impact}
+                </span>
+              </div>
+              <p className="text-xs font-jetbrains-mono text-gray-300 leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function Dashboard() {
   const sunburstData = {
     name: "flare",
@@ -128,7 +195,7 @@ export default function Dashboard() {
               {/* Prioritized Debt Tile */}
               <div className="bg-gray-800 rounded-xl p-6">
                 <h3 className="text-xl font-ocr-a mb-4">Prioritized Debt</h3>
-                
+                <PrioritizedDebt />
               </div>
 
               {/* Debt Breakdown Tile */}
