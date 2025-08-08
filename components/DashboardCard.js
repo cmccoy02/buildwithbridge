@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ArrowRight } from 'lucide-react';
 
 export default function DashboardCard({ 
   title, 
@@ -45,7 +46,7 @@ export default function DashboardCard({
         <h3 className="text-xl font-ocr-a text-gray-200 mb-4 flex items-center">
           {title}
           {isHovered && hoverEffect && (
-            <span className="ml-2 text-sm text-gray-400 animate-pulse">→</span>
+            <span className="ml-2 text-sm text-gray-400 animate-pulse"><ArrowRight /></span>
           )}
         </h3>
       )}

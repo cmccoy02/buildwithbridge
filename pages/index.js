@@ -5,7 +5,7 @@ export default function Home() {
     const router = useRouter();
 
     useEffect(() => {
-        router.push('/landing-pages/bridge');
+        router.push('/bridge');
     }, [router]);
 
     return null;

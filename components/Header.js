@@ -5,7 +5,7 @@ export default function Header() {
     return (
         <header className="py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div className="flex items-center">
-                <Link href="/landing-pages/bridge">
+                <Link href="/">
                     <span className="flex items-center">
                         <Image
                             src="/images/bridge.svg"
@@ -20,9 +20,9 @@ export default function Header() {
             </div>
             <nav>
                 <ul className="flex space-x-8 font-jetbrains-mono">
-                    <li><Link href="/landing-pages/about" className="hover:text-gray-400 transition duration-200">About</Link></li>
+                    <li><Link href="/about" className="hover:text-gray-400 transition duration-200">About</Link></li>
                     <li><Link href="/dashboard" className="hover:text-gray-400 transition duration-200">Demo</Link></li>
-                    <li><Link href="/landing-pages/contact" className="hover:text-gray-400 transition duration-200">Contact</Link></li>
+                    <li><Link href="/contact" className="hover:text-gray-400 transition duration-200">Contact</Link></li>
                 </ul>
             </nav>
         </header>

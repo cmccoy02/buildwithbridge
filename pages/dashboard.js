@@ -7,6 +7,7 @@ import FinancialImpact from '../components/FinancialImpact';
 import AreaChart from '../components/LineChart';
 import ZoomableIcicle from '../components/ZoomableIcicle';
 import { placeholderData } from '../data/placeholder-data';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 
 // Predicted Debt Component
 const PredictedDebt = ({ currentValue, predictedValue }) => {
@@ -36,7 +37,7 @@ const PredictedDebt = ({ currentValue, predictedValue }) => {
         <span 
           className={`text-2xl ${isImprovement ? 'text-green-400' : 'text-red-400'}`}
         >
-          {isImprovement ? '↓' : '↑'}
+          {isImprovement ? <ArrowDown /> : <ArrowUp />}
         </span>
         <span 
           className={`text-xl font-jetbrains-mono font-bold ${

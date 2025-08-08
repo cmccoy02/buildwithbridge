@@ -1,4 +1,5 @@
 import React from 'react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 
 const FinancialImpact = () => {
   // Financial data for a medium-sized company with legacy systems
@@ -32,7 +33,7 @@ const FinancialImpact = () => {
         {/* Quarter over Quarter Change */}
         <div className="flex items-center justify-center space-x-2 mb-3">
           <span className={`text-lg ${isImprovement ? 'text-green-400' : 'text-red-400'}`}>
-            {isImprovement ? '↓' : '↑'}
+            {isImprovement ? <ArrowDown /> : <ArrowUp />}
           </span>
           <span className={`text-sm font-jetbrains-mono ${isImprovement ? 'text-green-400' : 'text-red-400'}`}>
             {Math.abs(costChangePercent)}% from Q2
