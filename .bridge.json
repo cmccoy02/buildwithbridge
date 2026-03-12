@@ -1,0 +1,121 @@
+{
+  "__comment_0": "Bridge project configuration. Keep this file in source control so all engineers and agents share policy.",
+  "__comment_1": "Fields named __comment_* are ignored by Bridge and safe to remove.",
+  "version": 1,
+  "project": {
+    "name": "buildwithbridge",
+    "primaryLanguage": "javascript",
+    "monorepo": false,
+    "workspacePatterns": [],
+    "description": "A sleek, AMOLED-styled landing page for Bridge using Next.js and Tailwind CSS.",
+    "packageManager": "npm"
+  },
+  "dependencies": {
+    "updatePolicy": {
+      "patch": "auto",
+      "minor": "auto",
+      "major": "review"
+    },
+    "bannedPackages": [],
+    "requiredPackages": [],
+    "pinnedPackages": {},
+    "maxAge": {
+      "patch": 7,
+      "minor": 30,
+      "major": 90
+    },
+    "securityPolicy": {
+      "autoFixCritical": true,
+      "autoFixHigh": true,
+      "blockOnCritical": true,
+      "blockOnHigh": false
+    }
+  },
+  "gates": {
+    "tests": {
+      "required": true,
+      "timeout": 300000,
+      "minCoverage": 80
+    },
+    "lint": {
+      "required": false,
+      "command": "npm run lint"
+    },
+    "build": {
+      "required": false,
+      "command": "npm run build"
+    },
+    "bundleSize": {
+      "maxDeltaPercent": 10
+    },
+    "circularDependencies": {
+      "maxAllowed": 0,
+      "failOnNew": true
+    },
+    "deadCode": {
+      "maxUnusedExports": 10,
+      "maxDeadFiles": 5,
+      "failOnNew": false
+    },
+    "documentation": {
+      "requireReadme": true,
+      "requireChangelog": false,
+      "maxDaysSinceReadmeUpdate": 90
+    }
+  },
+  "agent": {
+    "context": "A sleek, AMOLED-styled landing page for Bridge using Next.js and Tailwind CSS.",
+    "conventions": [],
+    "avoidPatterns": [],
+    "preferredLibraries": {},
+    "reviewChecklist": []
+  },
+  "scoring": {
+    "weights": {
+      "dependencies": 20,
+      "security": 25,
+      "architecture": 20,
+      "testing": 20,
+      "documentation": 5,
+      "codeHealth": 10
+    },
+    "thresholds": {
+      "maxOutdatedDeps": 10,
+      "maxCircularDeps": 0,
+      "maxDeadFiles": 5,
+      "minTestCoverage": 80,
+      "maxOversizedFiles": 10,
+      "maxAvgFileComplexity": 15,
+      "maxDebtScore": 70
+    }
+  },
+  "scan": {
+    "schedule": "manual",
+    "exclude": [
+      "node_modules",
+      ".git",
+      "dist",
+      "build",
+      ".next",
+      ".bridge"
+    ],
+    "include": [],
+    "features": {
+      "dependencies": true,
+      "security": true,
+      "circularDeps": true,
+      "deadCode": true,
+      "bundleSize": true,
+      "testCoverage": true,
+      "documentation": true,
+      "codeSmells": true,
+      "fileAnalysis": true
+    }
+  },
+  "console": {
+    "autoUpload": false,
+    "uploadOn": [
+      "scan"
+    ]
+  }
+}
