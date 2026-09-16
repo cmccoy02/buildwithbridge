@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Head from 'next/head';
 
 // Sample data representing a typical codebase analysis
 const SAMPLE_ANALYSIS = {
@@ -71,6 +72,11 @@ export default function ConsolePage() {
 
   return (
     <>
+      <Head>
+        <title>Demo Console - Bridge</title>
+        <meta name="description" content="Interactive demo of Bridge's codebase analysis and technical debt scoring" />
+        <link rel="icon" href="/images/bridge.svg" />
+      </Head>
       <style jsx global>{`
       .bridge-demo {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
